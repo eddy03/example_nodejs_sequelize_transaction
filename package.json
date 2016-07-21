@@ -1,0 +1,24 @@
+{
+  "name": "transaction_nodejs_sequelize",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0",
+    "dotenv": "^2.0.0",
+    "fs": "0.0.2",
+    "handlebars": "^4.0.5",
+    "hapi": "^13.5.0",
+    "inert": "^4.0.1",
+    "mysql": "^2.11.1",
+    "path": "^0.12.7",
+    "request": "^2.73.0",
+    "sequelize": "^3.23.6",
+    "vision": "^4.1.0"
+  }
+}
