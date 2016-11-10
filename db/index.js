@@ -1,13 +1,14 @@
 'use strict';
 
-var Sequelize = require('Sequelize');
-var fs = require('fs');
-var path = require('path');
-var db = {};
+const Sequelize = require('sequelize');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = app => {
 
-  var sequelize = new Sequelize(process.env.DB_MYSQL_NAME, process.env.DB_MYSQL_USERNAME, process.env.DB_MYSQL_PASSWORD, {
+  let db = {}
+
+  const sequelize = new Sequelize(process.env.DB_MYSQL_NAME, process.env.DB_MYSQL_USERNAME, process.env.DB_MYSQL_PASSWORD, {
     host: process.env.DB_MYSQL_HOST,
     dialect: 'mariadb',
     pool: {
@@ -38,9 +39,10 @@ module.exports = app => {
 
   sequelize.sync({force: (process.env.DB_MYSQL_SYNC === 'true')});
 
-  app.db.mysql = {};
-  app.db.mysql.Sequelize = Sequelize;
-  app.db.mysql.sequelize = sequelize;
-  app.db.mysql.db = db; 
+  app.db = {
+    Sequelize: Sequelize,
+    sequelize: sequelize,
+    tables: db
+  }
 
 }
