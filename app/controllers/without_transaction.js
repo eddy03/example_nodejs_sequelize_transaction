@@ -64,28 +64,46 @@ module.exports = app => {
       createPost: cb => {
 
         app.db.tables.posts.create({
-          title: 'Hello Word',
-          content: '<h1>Corn Flakes</h1>'
+          title: 'Hello World',
+          content: 'Lorem Impsume'
         })
-          .then(post => { cb(null, post); })
-          .catch(err => { cb(err); });
+          .then(post => {
+            cb(null, post)
+          })
+          .catch(err => {
+            cb(err)
+          })
 
       },
       findAuthor: cb => {
 
         app.db.tables.users.findById(1)
-          .then(user => { cb(null, user); })
-          .catch(err => { cb(err); })
+          .then(user => {
+            cb(null, user)
+          })
+          .catch(err => {
+            cb(err)
+          })
 
       },
       relationToAuthor: ['createPost', 'findAuthor', (results, cb) => {
 
-        // create undefined variable so that we can mimic node.js error
-        undefinedVariable;
+        // console.log('Results ', results)
 
-        results.createPost.setAuthor(results.findAuthor)
-          .then(() => { cb(); })
-          .catch(err => { cb(err); });
+        // create undefined variable so that we can mimic node.js error
+        try {
+          undefinedVariable;
+
+          results.createPost.setAuthor(results.findAuthor)
+            .then(() => {
+              cb();
+            })
+            .catch(err => {
+              cb(err);
+            });
+        } catch(err) {
+          cb(err)
+        }
 
       }]
     }, (err, results) => {
@@ -95,12 +113,13 @@ module.exports = app => {
 
         res.status(500).json({
           success: false,
-          msg: 'Whooo... Something wrong happen',
+          msg: 'Whooo... Something wrong happen. You can see that the posts is inserted although is suppose to be fail and not to be inserted',
           back: 'http://127.0.0.1:3001/'
         })
 
       } else {
 
+        // We will never hit this..
         res.json({
           success: true,
           data: results.createPost,

@@ -80,7 +80,7 @@ module.exports = app => {
 
         res.status(500).json({
           success: false,
-          msg: 'Whooo... Something wrong happen',
+          msg: 'Whooo... Something wrong happen. You will see that no data will be inserted. Mean the transaction is working properly',
           back: 'http://127.0.0.1:3001/'
         })
 
