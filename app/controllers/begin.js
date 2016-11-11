@@ -2,21 +2,19 @@
 
 module.exports = app => {
 
-  var db = app.db.mysql.db;
+  let NU = {}
 
-  var createUser = {
-    method: 'GET',
-    path: '/',
-    handler: (req, res) => {
+  NU.begin = (req, res) => {
 
-      db.users.findOrCreate({
-        where: {
-          username: 'eddy',
-          email: 'eddy.rahman@thestar.com.my'
-        }
-      })
+    app.db.tables.users.findOrCreate({
+      where: {
+        username: 'eddy',
+        email: 'eddy.rahman@thestar.com.my'
+      }
+    })
       .spread((user, created) => {
-        res({
+
+        res.json({
           success: true,
           data: user,
           createdNew: created,
@@ -30,15 +28,22 @@ module.exports = app => {
               success: 'http://127.0.0.1:3001/newpost/with/success'
             }
           }
-        });
+        })
+
       })
       .catch(err => {
-        throw err;
+
+        // do something with err
+
+        res.status(500).json({
+          success: false,
+          msg: 'Whooo... Something wrong happen'
+        })
+
       });
 
-    }
-  };
+  }
 
-  return createUser;
+  return NU
 
 }

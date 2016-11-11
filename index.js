@@ -1,18 +1,26 @@
-'use strict';
+'use strict'
 
-require('dotenv').config();
+// Load the .env to process.env
+require('dotenv').config()
 
-var app = {};
-const Hapi = require('hapi');
-app.server = new Hapi.Server();
-app.server.connection({port: process.env.PORT});
+const express = require('express')
+const app = express()
 
-require('./database')(app);
+require('./db')(app)
 
-require('./app')(app);
+// Define all controllers
+let BeginCtrl = require('./app/controllers/begin')(app)
+let WTCtrl = require('./app/controllers/with_transaction')(app)
+let WhTCtrl = require('./app/controllers/without_transaction')(app)
 
-app.server.start(err => {
-  if(err) { throw err; }  
+// Routing
+app.get('/', BeginCtrl.begin)
 
-  console.log('Server is running at ', app.server.info.uri);
-});
+app.get('/newpost/without/fail', WhTCtrl.fail)
+app.get('/newpost/without/success', WhTCtrl.success)
+app.get('/newpost/with/fail', WTCtrl.fail)
+app.get('/newpost/with/success', WTCtrl.success)
+
+app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+  console.log('The nodejs sequelize transaction example is running on ' + process.env.APP_HOST + ':' + process.env.APP_PORT)
+})
