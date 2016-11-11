@@ -8,6 +8,7 @@ const app = express()
 
 require('./db')(app)
 
+// Define all controllers
 let BeginCtrl = require('./app/controllers/begin')(app)
 let WTCtrl = require('./app/controllers/with_transaction')(app)
 let WhTCtrl = require('./app/controllers/without_transaction')(app)
